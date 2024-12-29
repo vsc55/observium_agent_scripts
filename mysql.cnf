@@ -1,0 +1,17 @@
+<?php
+// Autodetect user/pass on Debian, please configure if other distro.
+
+$mysql_ini  = null;
+
+if (is_readable('/etc/mysql/debian.cnf'))
+{
+    $mysql_ini = preg_replace('/^\s*#/', ';', file_get_contents('/etc/mysql/debian.cnf'));
+}
+else if (is_readable('/root/.my.cnf'))
+{
+	$mysql_ini = preg_replace('/^\s*#/', ';', file_get_contents('/root/.my.cnf'));
+}
+
+$mysql_cnf  = $mysql_ini ? parse_ini_string($mysql_ini, true) : [];
+$mysql_user = $mysql_cnf['client']['user'] ?? 'root';
+$mysql_pass = $mysql_cnf['client']['password'] ?? ($mysql_cnf['client']['pass'] ?? '');

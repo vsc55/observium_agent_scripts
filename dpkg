@@ -1,0 +1,26 @@
+#!/bin/bash
+# Cache the file for 30 minutes
+# If you want to override this, put the command in cron.
+# We cache because it is a 1sec delay, which is painful for the poller
+
+# Chanlog:
+# 2014-12-19 - Used command -v to get the path of dpkg-query and check if it is executable (Javier Pastor)
+#
+
+DPKGBIN=$(command -v dpkg-query)
+
+if [ -x "$DPKGBIN" ]; then
+    DATE=$(date +%s)
+    FILE=/tmp/observium-agent-dpkg
+
+    if [ ! -e $FILE ]; then
+        $DPKGBIN -W --showformat='${Status} ${Package} ${Version} ${Architecture} ${Installed-Size}\n'|grep " installed "|cut -d\  -f4- > $FILE
+    fi
+    FILEMTIME=$(stat -c %Y $FILE)
+    FILEAGE=$(($DATE-$FILEMTIME))
+    if [ $FILEAGE -gt 1800 ]; then
+        $DPKGBIN -W --showformat='${Status} ${Package} ${Version} ${Architecture} ${Installed-Size}\n'|grep " installed "|cut -d\  -f4- > $FILE
+    fi
+    echo "<<<dpkg>>>"
+    cat $FILE
+fi

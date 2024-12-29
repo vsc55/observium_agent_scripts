@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Unbound statistics
+# (c) 2012, Tom Laermans for Observium (www.observium.org)
+
+# Required server configuration:
+#
+#         statistics-cumulative: yes
+#         extended-statistics: yes
+
+
+if [[ -x '/usr/sbin/unbound-control' ]]; then
+    unboundctl='/usr/sbin/unbound-control'
+elif [[ -x '/usr/local/sbin/unbound-control' ]]; then
+    unboundctl='/usr/local/sbin/unbound-control'
+else
+    unboundctl=$(command -v unbound-control)
+fi
+
+if [ -x "$unboundctl" ]; then
+    echo '<<<app-unbound>>>'
+    $unboundctl stats
+fi

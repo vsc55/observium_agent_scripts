@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "<<<docker>>>"
+
+# Lista de contenedores activos
+docker ps --format "table {{.Names}}\t{{.ID}}\t{{.Status}}" | tail -n +2
+
+# Uso de recursos (requiere `docker stats`)
+docker stats --no-stream --format "{{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.NetIO}}\t{{.BlockIO}}"

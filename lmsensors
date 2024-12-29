@@ -1,0 +1,8 @@
+#!/bin/bash
+
+lmsensors=$(command -v sensors)
+
+if [ -x "$lmsensors" ]; then
+  echo '<<<lmsensors>>>'
+  $lmsensors
+fi

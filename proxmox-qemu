@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Proxmox VE virtual machine listing
+# (c) 2015-2019, Tom Laermans for Observium
+
+# Changelog:
+# 2024-12-29 - Used command -v to check if pvesh is installed and is executable (Javier Pastor)
+
+PVESH=$(command -v pvesh)
+
+if [ -x "$PVESH" ]; then
+
+    echo "<<<proxmox-qemu>>>"
+
+    VERSION=$(pveversion | awk -F/ '{print $2}' | sed 's/\..*//')
+    if [[ ${VERSION} -ge 5 ]]; then
+        pvesh get /nodes/$(hostname)/qemu --output-format=json-pretty 2>/dev/null
+    else
+        pvesh get /nodes/$(hostname)/qemu 2>/dev/null
+    fi
+fi
