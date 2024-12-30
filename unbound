@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Unbound statistics
 # (c) 2012, Tom Laermans for Observium (www.observium.org)

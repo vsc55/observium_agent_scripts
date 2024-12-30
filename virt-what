@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Install dependencies
+# apt-get install -y virt-what
+
 virtwhat=$(command -v virt-what)
 
 if [ -x "$virtwhat" ]; then

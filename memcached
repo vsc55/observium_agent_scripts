@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 # Install the python-memcached package:
+# apt-get install -y python3-memcached 
+# or
 # pip3 install python3-memcached
 #
 # This script requires the memcached server to be running and the python-memcached package.
